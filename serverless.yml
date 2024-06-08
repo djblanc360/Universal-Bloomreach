@@ -1,0 +1,14 @@
+service: universal-bloomreach
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-west-2
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'

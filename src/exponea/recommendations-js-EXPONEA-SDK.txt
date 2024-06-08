@@ -1,0 +1,801 @@
+
+
+
+https://olukai-store.myshopify.com/products/hila-womens-slide-sandals-cloudy?preview_theme_id=121735512163
+
+/* global slate, exponea, VueMinicart, initRatingSnippet rdt */
+
+const recommendationId = '{{ section.settings.recommendation_id }}'
+        
+let RCM_STATUS = 0
+// render items when loaded
+const retrieveRecommendations = function(data) {
+
+    if (RCM_STATUS !== 'TIMED_OUT') {
+        RCM_STATUS = 'LOADED'
+        console.log('recommendations loaded in recommendation-js.liquid - retrieveRecomendations data: ', data)
+        // render items ...
+        if (data && data.length > 0) {
+            document.querySelector(".product-recommendations.pdp-recommendations-sec").classList.remove("rec-show-section");    
+            generateSlider(data)
+        }         
+    }
+}
+
+// recommendations configuration
+const optionsPDP = {
+    recommendationId: recommendationId,
+    callback: retrieveRecommendations,
+    size: 10, // Specifies upper limit of the recommendations to return. Defaults to 10.
+    fillWithRandom: true, // If true, fills the recommendations with random items until size is reached. This is utilized when models cannot recommend enough items.
+    // Optional parameters:
+    catalogFilter: [], // Adds additional constrains to catalog when retrieving recommended items. Example: [{'property': 'gender', 'constraint': { 'type': 'string', 'operator': 'equals', 'operands': [{'type': 'constant', 'value': 'male'}]}}]
+    catalogAttributesWhitelist: [] // Returns only specified attributes from catalog items. If empty or not set, returns everything.
+}
+
+// call recommedations 
+window.addEventListener('DOMContentLoaded', (event) => {
+    
+    if (typeof exponea.getRecommendation === 'function') {
+        if (recommendationId) {
+            exponea.getRecommendation(optionsPDP);
+        }        
+    }
+    
+    // start timeout to discard rendering when recommendations are loaded too late
+    setTimeout(() => {
+        if (RCM_STATUS !== 'LOADED') {
+            RCM_STATUS = 'TIMED_OUT'
+
+            // track event recommendation action=timeout
+            exponea.track('recommendation', {
+                action: 'timeout',
+                recommendation_id: recommendationId
+                // other required properties: placement, ...
+            })
+        }
+
+        if (RCM_STATUS !== 'TIMED_OUT') {
+            generateActions()
+        }
+    }, 7000)
+})
+
+
+/** ====================== OUTPUT FROM RECOMMENDATIONS  ======================  */
+'recommendations loaded in recommendation-js.liquid - retrieveRecomendations data: ',
+[
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/4678660391011",
+        "body_html": "In 1833, Mexican vaqueros taught Hawaiians how to manage cattle. Since then, the paniolo (cowgirl) culture has thrived in Hawai‘i. Our Paniolo sandal taps into that aesthetic and sense of adventure with its saddle-inspired stitching and deeply oiled leather. They’re perfect for around-town and out-of-town wear. Made for the beach, not the ocean—prolonged contact with water may cause damage.",
+        "category_level_1": "sandals",
+        "color": "Natural",
+        "date_added": 1336461285,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "649",
+        "handle": "paniolo-womens-leather-beach-sandals-natural",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20129_8787_001_W_Paniolo_NatNat_3d97c32b-f3a3-4f8a-ad54-d28c760e22d4.png?v=1684947003",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "4678660391011",
+        "item_material": "leather",
+        "item_style": "Paniolo",
+        "location_distribution_center": 1167,
+        "location_pos_0001___whalers_village": 43,
+        "location_pos_0002___hilton_hawaiian_village": 32,
+        "location_pos_0003___chinatown": 10,
+        "location_pos_0004___wailea": 11,
+        "location_pos___aloha_mobile": 34,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 6088992784483,
+                "name": "Color",
+                "position": 1,
+                "product_id": 4678660391011,
+                "values": [
+                    "Natural"
+                ]
+            },
+            {
+                "id": 6088992817251,
+                "name": "Size",
+                "position": 2,
+                "product_id": 4678660391011,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
+                ]
+            }
+        ],
+        "price": 90,
+        "product_created_at": 1597174158,
+        "product_id": "4678660391011",
+        "product_type": "Women’s Beach Sandals",
+        "product_updated_at": 1685498415,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20129-8787",
+        "tags": "arch:high, beach sandals, best sellers, best:everday_wear, best:special_occasion, best:travel, cat:sandals, collection:chief-home-officer, collection:HGG-Slider-W, color:Natural, color:tan, etched cowgirl footbed, etched cowgirl footbef, EXP_REC_WOMEN, fit:wide, flip flops, gender:women, highest rated flip flop, interest:driving, labor day, leather, likes:beach, likes:friends, likes:urban-exploring, material:leather, mothers-day, pa iolo, pani, panili, panilo, panini, paniolo, Paniolo Lipi, panolo, panpaniolo, pilono, size:true, split_color, style:20129, tag-test, vacation:city-downtown, vacation:tropical, wide sizes, wide width, women, womens, women’s, YGroup_20129",
+        "taxable": true,
+        "template_suffix": "paniolo-20129",
+        "title": "Paniolo - Natural",
+        "url": "https://olukai-store.myshopify.com/products/paniolo-womens-leather-beach-sandals-natural",
+        "variant_sizes": "{5,6,7,8,9,10,11}",
+        "vendor": "OluKai",
+        "weight": "1.4308",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/4678677692515",
+        "body_html": "In Hawai‘i, ‘ohana isn’t just immediate family; an ‘ohana is a sanctuary of friends and family where you can just be yourself. With that in mind, we crafted the classic ‘Ohana, your go-to choice for everyday style. A water-resistant sandal with a smooth drop-in footbed for the perfect anatomical fit, the ‘Ohana makes your feet feel at home.",
+        "category_level_1": "sandals",
+        "color": "Black",
+        "date_added": 1336461285,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "658",
+        "handle": "ohana-womens-beach-sandals-black",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20110_4040_001_W_Ohana_BlkBlk_fe97ba3a-cc93-4536-a2ce-0d680471f282.png?v=1647988967",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "4678677692515",
+        "item_material": "synthetic",
+        "item_style": "‘Ohana",
+        "location_distribution_center": 5356,
+        "location_pos_0001___whalers_village": 52,
+        "location_pos_0002___hilton_hawaiian_village": 19,
+        "location_pos_0003___chinatown": 20,
+        "location_pos_0004___wailea": 18,
+        "location_pos___aloha_mobile": 35,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 6089019850851,
+                "name": "Color",
+                "position": 1,
+                "product_id": 4678677692515,
+                "values": [
+                    "Black"
+                ]
+            },
+            {
+                "id": 6089019883619,
+                "name": "Size",
+                "position": 2,
+                "product_id": 4678677692515,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11",
+                    "12"
+                ]
+            }
+        ],
+        "price": 75,
+        "product_created_at": 1597176531,
+        "product_id": "4678677692515",
+        "product_type": "Women’s Beach Sandals",
+        "product_updated_at": 1685499318,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20110-4040",
+        "tags": "'ohanna, arch:high, beach sandals, beachbum, best:beach_boat, best:everday_wear, cat:sandals, collection:chief-home-officer, collection:HGG-Slider-W, collection:tide-tracker, color:Black, enhanced traction outsole, EXP_REC_WOMEN, extra-colors, fit:wide, flip flops, gender:women, labor day, likes:beach, material:synthetic, mothers-day, nature-inspired, o hana, o hanas, obama, oha, Ohana, ohana w, ohanaflip flops, ohanaohana women, ohsna, omaha, size:true, SP-19-COLOR, SP19-Style, split_color, style:20110, synthetic, vacation:tropical, vegan, vegan friendly, water-friendly, wide sizes, wide width, women, womens, women’s, YGroup_20110, ‘ohani",
+        "taxable": true,
+        "template_suffix": "ohana-20110",
+        "title": "‘Ohana - Black",
+        "url": "https://olukai-store.myshopify.com/products/ohana-womens-beach-sandals-black",
+        "variant_sizes": "{5,6,7,8,9,10,11,12}",
+        "vendor": "OluKai",
+        "weight": "1.4506",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/6679053402211",
+        "body_html": "Premium leather with a beachy and boho design, this timeless slide blurs the line between relaxed and dressy. Wear it to the coffee shop in the morning and to dinner in the evening—Kipe‘a ‘Olu is a stitch above when it comes to comfort, quality, and ease. Made for the beach, not the ocean—prolonged contact with water may cause damage.",
+        "category_level_1": "sandals",
+        "color": "Sahara",
+        "date_added": 1641256961,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "726",
+        "handle": "kipea-olu-womens-leather-slide-sandals-sahara",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20460_FMFM_001_W_KipeaOlu_SahSah_2d0bad87-9f33-4e3d-8224-e7637722849f.png?v=1647991232",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "6679053402211",
+        "item_material": "leather",
+        "item_style": "Kīpe‘a ‘Olu",
+        "location_distribution_center": 166,
+        "location_pos_0001___whalers_village": 15,
+        "location_pos_0002___hilton_hawaiian_village": 11,
+        "location_pos_0003___chinatown": 9,
+        "location_pos_0004___wailea": 17,
+        "location_pos___aloha_mobile": 32,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 8593195171939,
+                "name": "Color",
+                "position": 1,
+                "product_id": 6679053402211,
+                "values": [
+                    "Sahara"
+                ]
+            },
+            {
+                "id": 8593195204707,
+                "name": "Size",
+                "position": 2,
+                "product_id": 6679053402211,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
+                ]
+            }
+        ],
+        "price": 100,
+        "product_created_at": 1639508042,
+        "product_id": "6679053402211",
+        "product_type": "Women’s Slide Sandals",
+        "product_updated_at": 1685499500,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20460-FMFM",
+        "tags": "arch:standard, best sellers, best:post_workout, best:special_occasion, best:travel, cat:sandals, collection:HGG-Slider-W, color:brown, fit:standard, gender:women, highest rated flip flop, interest:driving, kip, kip a olu, Kipea Luo, Kipea Oli, Kipea Olu, Kipe‘a ‘Olu, Kipie Olu, Kipiea Olu, landleather, leather, leather slides, material:leather, sandals, size:true, slide sandals, split_color, style:20460, womens",
+        "taxable": true,
+        "template_suffix": "kipea-olu-20460",
+        "title": "Kīpe‘a ‘Olu - Sahara",
+        "url": "https://olukai-store.myshopify.com/products/kipea-olu-womens-leather-slide-sandals-sahara",
+        "variant_sizes": "{5,6,7,8,9,10,11}",
+        "vendor": "OluKai",
+        "weight": "1.6",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/4727812194403",
+        "body_html": "In Hawai‘i, ‘ohana isn’t just immediate family; an ‘ohana is a sanctuary of friends and family where you can just be yourself. With that in mind, we crafted the classic ‘Ohana, your go-to choice for everyday style. A water-resistant sandal with a smooth drop-in footbed for the perfect anatomical fit, the ‘Ohana makes your feet feel at home.",
+        "category_level_1": "sandals",
+        "color": "Bright White / Hua",
+        "date_added": 1616697757,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "680",
+        "handle": "ohana-womens-beach-sandals-bright-white-hua",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20110_WBHQ_001_W_Ohana_BrgtWht.png?v=1647989176",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "4727812194403",
+        "item_material": "synthetic",
+        "item_style": "‘Ohana",
+        "location_distribution_center": 427,
+        "location_pos_0001___whalers_village": 24,
+        "location_pos_0002___hilton_hawaiian_village": 11,
+        "location_pos_0003___chinatown": 0,
+        "location_pos_0004___wailea": 24,
+        "location_pos___aloha_mobile": 1,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 6153831678051,
+                "name": "Color",
+                "position": 1,
+                "product_id": 4727812194403,
+                "values": [
+                    "Bright White / Hua"
+                ]
+            },
+            {
+                "id": 6153831710819,
+                "name": "Size",
+                "position": 2,
+                "product_id": 4727812194403,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11",
+                    "12"
+                ]
+            }
+        ],
+        "price": 75,
+        "product_created_at": 1603483894,
+        "product_id": "4727812194403",
+        "product_type": "Women’s Beach Sandals",
+        "product_updated_at": 1685499926,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20110-WBHQ",
+        "tags": "'ohanna, 'ohona, 10, arch:high, beach sandals, best sellers, best:beach_boat, best:everday_wear, cat:sandals, color:white, enhanced traction outsole, fit:wide, flip flops, gender:women, hano, material:synthetic, o hana, oha, ohan, ohana, ohana w, ohanaflip flops, ohanaohana women, ohiana, ohooa, pineapple, pineapple flipflop, sandals, size:true, split_color, style:20110, synthetic, vegan, water-friendly, white flip flop, wide width, womens, YGroup_20110, ygroup_2mens, ‘ohani",
+        "taxable": true,
+        "template_suffix": "ohana-20110",
+        "title": "‘Ohana - Bright White / Hua",
+        "url": "https://olukai-store.myshopify.com/products/ohana-womens-beach-sandals-bright-white-hua",
+        "variant_sizes": "{5,6,7,8,9,10,11,12}",
+        "vendor": "OluKai",
+        "weight": "1.5",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/4678678970467",
+        "body_html": "In Hawai‘i, ‘ohana isn’t just immediate family; an ‘ohana is a sanctuary of friends and family where you can just be yourself. With that in mind, we crafted the classic ‘Ohana, your go-to choice for everyday style. A water-resistant sandal with a smooth drop-in footbed for the perfect anatomical fit, the ‘Ohana makes your feet feel at home.",
+        "category_level_1": "sandals",
+        "color": "Dark Java",
+        "date_added": 1556745728,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "658",
+        "handle": "ohana-womens-beach-sandals-dark-java",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20110_4848_001_W_Ohana_DkjDkj_af74da6e-0ab9-484a-884c-c68873939cfb.png?v=1684946937",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "4678678970467",
+        "item_material": "synthetic",
+        "item_style": "‘Ohana",
+        "location_distribution_center": 19320,
+        "location_pos_0001___whalers_village": 58,
+        "location_pos_0002___hilton_hawaiian_village": 28,
+        "location_pos_0003___chinatown": 13,
+        "location_pos_0004___wailea": 13,
+        "location_pos___aloha_mobile": 14,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 6089021882467,
+                "name": "Color",
+                "position": 1,
+                "product_id": 4678678970467,
+                "values": [
+                    "Dark Java"
+                ]
+            },
+            {
+                "id": 6089021915235,
+                "name": "Size",
+                "position": 2,
+                "product_id": 4678678970467,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11",
+                    "12"
+                ]
+            }
+        ],
+        "price": 75,
+        "product_created_at": 1597176697,
+        "product_id": "4678678970467",
+        "product_type": "Women’s Beach Sandals",
+        "product_updated_at": 1685496655,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20110-4848",
+        "tags": "'ohanna, arch:high, beachbum, best:beach_boat, best:everday_wear, cat:sandals, collection:chief-home-officer, collection:tide-tracker, color:brown, color:Dark Java, dk java, enhanced traction outsole, EXP_REC_WOMEN, fit:wide, gender:women, likes:beach, material:synthetic, o hana, obama, oha, ohana, ohanaflip flops, size:true, SP-19-COLOR, SP19-Style, split_color, style:20110, vacation:tropical, vegan, water-friendly, wide width, women, womens, women’s, YGroup_20110, ‘ohani",
+        "taxable": true,
+        "template_suffix": "ohana-20110",
+        "title": "‘Ohana - Dark Java",
+        "url": "https://olukai-store.myshopify.com/products/ohana-womens-beach-sandals-dark-java",
+        "variant_sizes": "{5,6,7,8,9,10,11,12}",
+        "vendor": "OluKai",
+        "weight": "1.4506",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/6679037804643",
+        "body_html": "Island life calls for a certain level of casualness, and this premium sandal delivers. Crafted with leisure in mind, the Kāpehe Luana features soft full-grain leather, underfoot support, and a strappy design that’s both distinct and understated. Made for the beach, not the ocean—prolonged contact with water may cause damage.",
+        "category_level_1": "sandals",
+        "color": "Bubbly / Sahara",
+        "date_added": 1641257064,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "680",
+        "handle": "kapehe-luana-womens-leather-beach-sandals-bubbly-sahara",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20468_FAFM_001_W_KapeheLuana_BubSah.png?v=1640193462",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "6679037804643",
+        "item_material": "leather",
+        "item_style": "Kāpehe Luana",
+        "location_distribution_center": 900,
+        "location_pos_0001___whalers_village": 29,
+        "location_pos_0002___hilton_hawaiian_village": 37,
+        "location_pos_0003___chinatown": 10,
+        "location_pos_0004___wailea": 17,
+        "location_pos___aloha_mobile": 8,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 8593174855779,
+                "name": "Color",
+                "position": 1,
+                "product_id": 6679037804643,
+                "values": [
+                    "Bubbly / Sahara"
+                ]
+            },
+            {
+                "id": 8593174888547,
+                "name": "Size",
+                "position": 2,
+                "product_id": 6679037804643,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
+                ]
+            }
+        ],
+        "price": 100,
+        "product_created_at": 1639503717,
+        "product_id": "6679037804643",
+        "product_type": "Women’s Leather Beach Sandals",
+        "product_updated_at": 1685498428,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20468-FAFM",
+        "tags": "arch:standard, beach sandals, best sellers, best:everday_wear, best:special_occasion, best:travel, cat:sandals, collection:HGG-Slider-W, color:tan, fit:standard, flip flops, gender:women, gold flipflops, highest rated flip flop, interest:driving, Kaapehe Luiana, kaekae, Kap, kapahe luana, KapaheLuana, kape, kapeh, kapehe, Kapehea Luani, Kapehuea Luana, Kapeke lunaha, Kepeluana, Kāpehe Luana, landleather, leather, material:leather, sandals, size:true, split_color, style:20468, u i, ui, womens",
+        "taxable": true,
+        "template_suffix": "kapehe-luana-20468",
+        "title": "Kāpehe Luana - Bubbly / Sahara",
+        "url": "https://olukai-store.myshopify.com/products/kapehe-luana-womens-leather-beach-sandals-bubbly-sahara",
+        "variant_sizes": "{5,6,7,8,9,10,11}",
+        "vendor": "OluKai",
+        "weight": "1.5",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/6892980371555",
+        "body_html": "Meet the sophisticated Kīpe‘a ‘Oho, our limited-edition pony hair crossover sandals. Crafted with premium full-grain leather and soft pony hair for an elevated take on her classic summer sandals.",
+        "category_level_1": "sandals",
+        "color": "Tan",
+        "date_added": 1681319279,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "408",
+        "handle": "kipea-oho-womens-leather-slide-sandals-tan",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20501_3434_001_W_Kipea_Oho_Tan.png?v=1684949009",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "6892980371555",
+        "item_material": "material",
+        "item_style": "Kīpe‘a ‘Oho",
+        "location_distribution_center": 22,
+        "location_pos_0001___whalers_village": 14,
+        "location_pos_0002___hilton_hawaiian_village": 15,
+        "location_pos_0003___chinatown": 0,
+        "location_pos_0004___wailea": 18,
+        "location_pos___aloha_mobile": 0,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 8947266093155,
+                "name": "Color",
+                "position": 1,
+                "product_id": 6892980371555,
+                "values": [
+                    "Tan"
+                ]
+            },
+            {
+                "id": 8947266125923,
+                "name": "Size",
+                "position": 2,
+                "product_id": 6892980371555,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
+                ]
+            }
+        ],
+        "price": 130,
+        "product_created_at": 1676420803,
+        "product_id": "6892980371555",
+        "product_type": "Women’s Slide Sandals",
+        "product_updated_at": 1685475070,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20501-3434",
+        "tags": "arch:standard, best:special_occasion, best:travel, bis-hidden, cat:sandals, color:Tan, exclusive, fit:standard, gender:women, horsehair, kip, kipe'a 'oho, kipeaoho, kipes oho, kipe‘a ‘oho, landleather, leather, leather:material, limited edition, material:leather, mothers day, mothers day exclusive, new, pfs:hidden:s, sandals, size:true, slide, slide sandals, split_color, style:20501, web exclusives, web-exclusive, womens",
+        "taxable": true,
+        "template_suffix": "kipea-oho-20501",
+        "title": "Kīpe‘a ‘Oho - Tan",
+        "url": "https://olukai-store.myshopify.com/products/kipea-oho-womens-leather-slide-sandals-tan",
+        "variant_sizes": "{5,6,7,8,9,10,11}",
+        "vendor": "OluKai",
+        "weight": "0.9",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/6862346584163",
+        "body_html": "This easy sandal is inspired by the current patterns of the Pacific Ocean. Wrapped in supple, full-grain leather, Huawai pairs well with any outfit and feels more comfortable with every step. Made for the beach, not the ocean—prolonged contact with water may cause damage.",
+        "category_level_1": "sandals",
+        "color": "Bubbly",
+        "date_added": 1672957004,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "283",
+        "handle": "huawai-womens-leather-beach-sandals-bubbly",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20496_FAFA_001_W_Huawai_BubBub.png?v=1673891804",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "6862346584163",
+        "item_material": "leather",
+        "item_style": "Huawai",
+        "location_distribution_center": 382,
+        "location_pos_0001___whalers_village": 13,
+        "location_pos_0002___hilton_hawaiian_village": 2,
+        "location_pos_0003___chinatown": 5,
+        "location_pos_0004___wailea": 10,
+        "location_pos___aloha_mobile": 0,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 8899891003491,
+                "name": "Color",
+                "position": 1,
+                "product_id": 6862346584163,
+                "values": [
+                    "Bubbly"
+                ]
+            },
+            {
+                "id": 8899891036259,
+                "name": "Size",
+                "position": 2,
+                "product_id": 6862346584163,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
+                ]
+            }
+        ],
+        "price": 120,
+        "product_created_at": 1667856639,
+        "product_id": "6862346584163",
+        "product_type": "Women’s Beach Sandals",
+        "product_updated_at": 1685498300,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20496-FAFA",
+        "tags": "arch:standard, beach sandals, best:everday_wear, best:special_occasion, cat:sandals, champagne, female sandles, fit:standard, flip flops, gender:women, gold flipflops, gold sandals, huawa, huawai, huiawai, huwai, island resort, landleather, leather, leather sandal, material:leather, new, sandals, shiny, size:true, split_color, style:20496, wai, women, women's, women’s",
+        "taxable": true,
+        "template_suffix": "huawai-20496",
+        "title": "Huawai - Bubbly",
+        "url": "https://olukai-store.myshopify.com/products/huawai-womens-leather-beach-sandals-bubbly",
+        "variant_sizes": "{5,6,7,8,9,10,11}",
+        "vendor": "OluKai",
+        "weight": "0.625",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/6861714620515",
+        "body_html": "Introducing the Hila Sandal, the perfect blend of comfort and style. Our sandals feature a unique elevated puffy design, offering a feeling of floating on air with every step. No more sacrificing style for comfort- the Hila Sandal delivers both in one. Experience a new level of relaxation perfect for any occasion with Hila, a true warm-weather essential.",
+        "category_level_1": "sandals",
+        "color": "Black",
+        "date_added": 1672945968,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "397",
+        "handle": "hila-womens-slide-sandals-black",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20490_4040_001_W_Hila_BlkBlk.png?v=1684947592",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "6861714620515",
+        "item_material": "syntheticwomens",
+        "item_style": "Hila",
+        "location_distribution_center": 394,
+        "location_pos_0001___whalers_village": 14,
+        "location_pos_0002___hilton_hawaiian_village": 7,
+        "location_pos_0003___chinatown": 9,
+        "location_pos_0004___wailea": 14,
+        "location_pos___aloha_mobile": 0,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 8898912321635,
+                "name": "Color",
+                "position": 1,
+                "product_id": 6861714620515,
+                "values": [
+                    "Black"
+                ]
+            },
+            {
+                "id": 8898912354403,
+                "name": "Size",
+                "position": 2,
+                "product_id": 6861714620515,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
+                ]
+            }
+        ],
+        "price": 80,
+        "product_created_at": 1667502470,
+        "product_id": "6861714620515",
+        "product_type": "Women’s Slide Sandals",
+        "product_updated_at": 1685498910,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20490-4040",
+        "tags": "arch:standard, beach sandals, best:post_workout, cat:sandals, cross sandal, fit:standard, gender:women, heela, hela, hil, hila, island resort, material:syntheticwomens, new, olukai beach sandals, puffy, puffy sandal, sandals, size:true, slide, slide sandals, split_color, style:20490, synthetic, vegan, vegan friendly, water-friendly, women, women's",
+        "taxable": true,
+        "template_suffix": "hila-20490",
+        "title": "Hila - Black",
+        "url": "https://olukai-store.myshopify.com/products/hila-womens-slide-sandals-black",
+        "variant_sizes": "{5,6,7,8,9,10,11}",
+        "vendor": "OluKai",
+        "weight": "0.875",
+        "weight_unit": "lb"
+    },
+    {
+        "active": true,
+        "admin_graphql_api_id": "gid://shopify/Product/4678620184675",
+        "body_html": "Gentle trade winds, warm ocean waters, sunsets you can’t turn away from—Hawai‘i might just be the perfect place to rejuvenate the soul. We captured that same spirit in our Ho‘ōpio sandal. Designed to be clean, simple, and playful—this breezy beach sandal fills every step with island energy.",
+        "category_level_1": "sandals",
+        "color": "Onyx",
+        "date_added": 1336461285,
+        "engine_name": "cf_1648597961",
+        "fulfillment_service": "manual",
+        "gender": "women",
+        "grams": "689",
+        "handle": "hoopio-womens-beach-sandals-onyx",
+        "image": "https://cdn.shopify.com/s/files/1/0015/9229/5523/products/20294_OXOX_001_W_Hoopio_OnxOnx_cbe2698a-b58b-4856-b78c-998b2b9c8b2d.png?v=1618340409",
+        "inventory_management": "shopify",
+        "inventory_policy": "deny",
+        "inventory_updated_at": null,
+        "item_id": "4678620184675",
+        "item_material": "synthetic",
+        "item_style": "Ho‘ōpio",
+        "location_distribution_center": 7732,
+        "location_pos_0001___whalers_village": 33,
+        "location_pos_0002___hilton_hawaiian_village": 28,
+        "location_pos_0003___chinatown": 0,
+        "location_pos_0004___wailea": 33,
+        "location_pos___aloha_mobile": 1,
+        "location_test_pos": 0,
+        "options": [
+            {
+                "id": 6088928886883,
+                "name": "Color",
+                "position": 1,
+                "product_id": 4678620184675,
+                "values": [
+                    "Onyx"
+                ]
+            },
+            {
+                "id": 6088928919651,
+                "name": "Size",
+                "position": 2,
+                "product_id": 4678620184675,
+                "values": [
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
+                ]
+            }
+        ],
+        "price": 75,
+        "product_created_at": 1597169003,
+        "product_id": "4678620184675",
+        "product_type": "Women’s Beach Sandals",
+        "product_updated_at": 1685499280,
+        "published_scope": "global",
+        "recommendation_id": "641cbea53b832385d419febb",
+        "recommendation_source": "model_fallback",
+        "recommendation_variant_id": "1648597961",
+        "requires_shipping": true,
+        "style_color": "20294-OXOX",
+        "tags": "arch:low, arch:standard, beach sandals, beachbum, best sellers, best:beach_boat, best:post_workout, best:travel, cat:sandals, collection:tide-tracker, color:black, color:Onyx, enhanced traction outsole, EXP_REC_WOMEN, extra-colors, fit:narrow, fit:standard, flip flops, gender:women, go opio, hi opio, highest rated flip flop, hilo, hiopoi, ho, ho opioo, ho oplo, Hoo, Hooop, hooopio, hoop, hoopi, hooping onyx, hoopio, hoopio slippers, hopio, Ho‘ō, Ho‘ōpio, Ho‘ōpio collection, labor day, likes:beach, material:synthetic, mothers-day, narrow width, nature-inspired, opio, size:true, SP-19-COLOR, SP19-Style, split_color, style:20294, synthetic, vacation:tropical, vegan, water-friendly, women, womens, women’s, YGroup_20294",
+        "taxable": true,
+        "template_suffix": "hoopio-20294",
+        "title": "Ho‘ōpio - Onyx",
+        "url": "https://olukai-store.myshopify.com/products/hoopio-womens-beach-sandals-onyx",
+        "variant_sizes": "{5,6,7,8,9,10,11}",
+        "vendor": "OluKai",
+        "weight": "1.519",
+        "weight_unit": "lb"
+    }
+]
